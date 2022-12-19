@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional
 class BookService(
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
-    private val userLoanHistoryRepository: UserLoanHistoryRepository
+    private val userLoanHistoryRepository: UserLoanHistoryRepository,
 ) {
 
     @Transactional
     fun saveBook(request: BookRequest) {
-        val book = Book(request.name)
+        val book = Book(request.name, request.type)
         bookRepository.save(book)
     }
 
