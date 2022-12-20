@@ -52,26 +52,33 @@ class BookService(
 
     @Transactional(readOnly = true)
     fun getBookStatistics(): List<BookStatResponse> {
-        val results = mutableListOf<BookStatResponse>()
-
-        val books = bookRepository.findAll()
-
+//        val results = mutableListOf<BookStatResponse>()
+//
+//        val books = bookRepository.findAll()
+//
+////        for (book in books) {
+////            val targetDto = results.firstOrNull { dto -> book.type == dto.type }
+//////            if (Objects.isNull(targetDto)) {
+////            if (targetDto == null) {
+////                results.add(BookStatResponse(book.type, 1))
+////            } else {
+////                targetDto.plusOne()
+////            }
+////        }
+//
 //        for (book in books) {
-//            val targetDto = results.firstOrNull { dto -> book.type == dto.type }
-////            if (Objects.isNull(targetDto)) {
-//            if (targetDto == null) {
-//                results.add(BookStatResponse(book.type, 1))
-//            } else {
-//                targetDto.plusOne()
-//            }
+//            results.firstOrNull { dto -> book.type == dto.type }?.plusOne()
+//                ?: results.add(BookStatResponse(book.type, 1))
 //        }
+//
+//        return results
 
-        for (book in books) {
-            results.firstOrNull { dto -> book.type == dto.type }?.plusOne()
-                ?: results.add(BookStatResponse(book.type, 1))
-        }
-
-        return results
+//        return bookRepository.findAll()
+//            .groupBy { book -> book.type }
+//            .map { (type, books) -> BookStatResponse(type, books.size) }
+        return bookRepository.findAll()
+            .groupBy(Book::type)
+            .map { (type, books) -> BookStatResponse(type, books.size) }
     }
 
 }
